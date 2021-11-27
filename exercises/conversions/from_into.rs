@@ -37,8 +37,31 @@ impl Default for Person {
 
 impl From<&str> for Person {
     fn from(s: &str) -> Person {
+        let input = s.split_once(",").unwrap_or_default();
+        let name = input.0.to_string();
+        let age = input.1.parse().unwrap_or_default();
+        if name.is_empty() || age <= 0 {
+            Person::default()
+        } else { 
+            Person{name: name, age: age}
+        }
     }
 }
+// solution 2 - vectors - splitn
+//
+// impl From<&str> for Person {
+//     fn from(s: &str) -> Person {
+//         // todo try with split_once and process Option
+//         let person_details: Vec<_> = s.splitn(2, ",").collect();
+//         let name = person_details[0].to_string();
+//         let age = person_details.last().unwrap().parse();
+//         if name.is_empty() || age.is_err() {
+//             Person::default()
+//         } else { 
+//             Person{name: name, age: age.unwrap()}
+//         }
+//     }
+// }
 
 fn main() {
     // Use the `from` function
